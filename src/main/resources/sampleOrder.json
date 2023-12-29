@@ -1,0 +1,23 @@
+{
+    "orderId": "123456",
+    "orderDate": "2023-12-27T15:30:00",
+    "customer": {
+      "customerName": 30,
+      "phoneNumber": "+1-555-123456",
+      "address": "123 Main St, Cityville"
+    },
+    "items": [
+      {
+        "itemName": "Product A",
+        "quantity": 2,
+        "price":"12"
+      },
+      {
+        "itemName": "Product B",
+        "quantity": 1,
+        "price": 12.49
+      }
+    ],
+    "totalPrice": 64.47
+  }
+  
