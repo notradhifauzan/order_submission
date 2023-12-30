@@ -24,6 +24,8 @@ public class Order {
 
     double totalPrice;
 
+    byte[] orderReceipt;
+
     @Override
     public String toString()
     {

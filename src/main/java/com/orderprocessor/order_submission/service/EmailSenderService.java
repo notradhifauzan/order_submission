@@ -3,7 +3,6 @@ package com.orderprocessor.order_submission.service;
 import java.io.IOException;
 
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -40,6 +39,22 @@ public class EmailSenderService {
             throw new MessagingException("Failed to attach file to email", e);
         }
 
+
+        javaMailSender.send(mimeMessage);
+
+        System.out.println("mail with attachment sent successfully");
+    }
+
+    public void sendMailWithAttachment(Order order) throws MessagingException, IOException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+        mimeMessageHelper.setFrom("not.radhifauzan@gmail.com");
+        mimeMessageHelper.setTo(MAIL_TO);
+        mimeMessageHelper.setText(order.toString());
+        mimeMessageHelper.setSubject(order.getSubject());
+        ByteArrayResource byteArrayResource = new ByteArrayResource(order.getOrderReceipt());
+        mimeMessageHelper.addAttachment("order receipt",byteArrayResource);
 
         javaMailSender.send(mimeMessage);
 
