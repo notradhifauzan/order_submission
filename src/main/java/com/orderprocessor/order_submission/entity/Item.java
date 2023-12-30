@@ -6,12 +6,12 @@ import lombok.Data;
 
 @Data
 public class Item {
+    int itemId;
     @NotEmpty(message = "item name should not be empty")
     String itemName;
-
-    @NotNull(message = "item quantity should not be empty")
-    Integer quantity;
-
     @NotNull(message = "item price should not be empty")
     Double price;    
+    @NotNull(message = "item quantity should not be empty")
+    Integer quantity;
+    double total;
 }
