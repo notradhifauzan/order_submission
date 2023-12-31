@@ -28,7 +28,7 @@ public class EmailSenderService {
         mimeMessageHelper.setFrom("not.radhifauzan@gmail.com");
         mimeMessageHelper.setTo(MAIL_TO);
         mimeMessageHelper.setText(order.toString());
-        mimeMessageHelper.setSubject(order.getSubject());
+        mimeMessageHelper.setSubject("[NOTIFICATION] NASI AJ ORDER#" + order.getOrderId());
 
         // Attach the file to the email
         try {
@@ -52,7 +52,7 @@ public class EmailSenderService {
         mimeMessageHelper.setFrom("not.radhifauzan@gmail.com");
         mimeMessageHelper.setTo(MAIL_TO);
         mimeMessageHelper.setText(order.toString());
-        mimeMessageHelper.setSubject(order.getSubject());
+        mimeMessageHelper.setSubject("[NOTIFICATION] NASI AJ ORDER#"+order.getOrderId());
         ByteArrayResource byteArrayResource = new ByteArrayResource(order.getOrderReceipt());
         mimeMessageHelper.addAttachment("order receipt",byteArrayResource);
 

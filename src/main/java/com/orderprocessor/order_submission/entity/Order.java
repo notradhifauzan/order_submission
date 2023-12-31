@@ -2,7 +2,6 @@ package com.orderprocessor.order_submission.entity;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.validation.Valid;
 import lombok.Data;
@@ -29,7 +28,7 @@ public class Order {
     public String toString()
     {
         String message = "";
-        message += "Order details: \n\n";
+        message += "Order details: \n--------------------\n";
         for(Item i:items)
         {
             message += i.getItemName() + " x" + i.getQuantity() + "\n";
@@ -39,17 +38,9 @@ public class Order {
         message += "Order Date: " + this.orderDate + "\n";
         message += "Total (RM): " + this.totalPrice + "\n\n";
 
-        message += "Customer details\n";
+        message += "Customer details\n--------------------\n";
         message += customer.getCustomerName() + "\n" + customer.getPhoneNumber() + "\n" + customer.getAddress() + "\n";
         
         return message;
-    }
-
-    public String getSubject()
-    {
-        String uniqueId = UUID.randomUUID().toString();
-        String firstSix = uniqueId.substring(0, 6);
-
-        return "ORDER #" + firstSix;
     }
 }
