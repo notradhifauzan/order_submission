@@ -19,13 +19,14 @@ import lombok.AllArgsConstructor;
 public class EmailSenderService {
     private JavaMailSender javaMailSender;
 
-    final String MAIL_TO = "alsyathir@gmail.com";
+    final String MAIL_TO = "nurshafikah3103@gmail.com";
+    final String MAIL_FROM = "nasiajdenaialam@gmail.com";
 
     public void sendMailWithAttachment(Order order, MultipartFile file) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
-        mimeMessageHelper.setFrom("not.radhifauzan@gmail.com");
+        mimeMessageHelper.setFrom(MAIL_FROM);
         mimeMessageHelper.setTo(MAIL_TO);
         mimeMessageHelper.setText(order.toString());
         mimeMessageHelper.setSubject("[NOTIFICATION] NASI AJ ORDER#" + order.getOrderId());
@@ -33,12 +34,11 @@ public class EmailSenderService {
         // Attach the file to the email
         try {
             ByteArrayResource byteArrayResource = new ByteArrayResource(file.getBytes());
-            mimeMessageHelper.addAttachment(file.getOriginalFilename(),byteArrayResource);
+            mimeMessageHelper.addAttachment(file.getOriginalFilename(), byteArrayResource);
         } catch (IOException e) {
             e.printStackTrace();
             throw new MessagingException("Failed to attach file to email", e);
         }
-
 
         javaMailSender.send(mimeMessage);
 
@@ -49,15 +49,30 @@ public class EmailSenderService {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
-        mimeMessageHelper.setFrom("not.radhifauzan@gmail.com");
+        mimeMessageHelper.setFrom(MAIL_FROM);
         mimeMessageHelper.setTo(MAIL_TO);
         mimeMessageHelper.setText(order.toString());
-        mimeMessageHelper.setSubject("[NOTIFICATION] NASI AJ ORDER#"+order.getOrderId());
+        mimeMessageHelper.setSubject("[NOTIFICATION] NASI AJ ORDER#" + order.getOrderId());
         ByteArrayResource byteArrayResource = new ByteArrayResource(order.getOrderReceipt());
-        mimeMessageHelper.addAttachment("order receipt",byteArrayResource);
+        mimeMessageHelper.addAttachment("order_receipt#"+order.getOrderId()+"."+order.getFileType(), byteArrayResource, getContentType(order.getFileType()));
 
         javaMailSender.send(mimeMessage);
 
         System.out.println("mail with attachment sent successfully");
+    }
+
+    static String getContentType(String fileType) {
+        switch (fileType.toLowerCase()) {
+            case "jpg":
+                return "image/jpg";
+            case "jpeg":
+                return "image/jpeg";
+            case "png":
+                return "image/png";
+            case "pdf":
+                return "application/pdf";
+            default:
+                return "application/octet-stream";
+        }
     }
 }

@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -53,6 +54,12 @@ public class OrderApi {
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
+    @GetMapping(value = "/test")
+    public String test()
+    {
+        return "mailing service is ready";
+    }
+
     // @Operation(summary = "Create an order (ver.2)", description = "This endpoint
     // serves the same purpose as ver.1 except, in the order details, you have to
     // include a 'orderReceipt' field to store Base64 byte array (you need to
@@ -70,6 +77,7 @@ public class OrderApi {
         if (order.getOrderReceipt() == null) {
             return new ResponseEntity<>("receipt should not be empty", HttpStatus.BAD_REQUEST);
         }
+        order.setOrderId(getUniqueOrderId());
         emailSenderService.sendMailWithAttachment(order);
 
         return new ResponseEntity<>(order, HttpStatus.CREATED);
